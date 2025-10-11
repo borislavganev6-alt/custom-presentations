@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Персонализирани презентации — Canva & PowerPoint</title>
+  <meta name="description" content="Поръчай къстъм или готови шаблони за презентации — Canva & PowerPoint" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+  <style>
+    /* Basic reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#ffffff; --muted:#6b7280; --accent1:#6c5ce7; --accent2:#60a5fa; --card:#f8fafc;
+      --radius:14px; --glass: rgba(255,255,255,0.65);
+    }
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg, #fbfdff 0%, #ffffff 40%); color:#0f172a; line-height:1.45}
+    .container{max-width:1100px;margin:32px auto;padding:0 20px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+    .logo{display:flex;gap:12px;align-items:center}
+    .brand{font-weight:700;font-size:18px}
+    nav a{margin-left:16px;color:var(--muted);text-decoration:none;font-weight:600}
+    nav a.active{color:var(--accent1)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin:18px 0}
+    .hero-card{background:linear-gradient(180deg, rgba(108,92,231,0.06), rgba(96,165,250,0.03));padding:32px;border-radius:18px;box-shadow:0 6px 20px rgba(12,18,44,0.06)}
+    .hero h1{font-size:28px;margin-bottom:10px}
+    .hero p{color:var(--muted);margin-bottom:18px}
+    .cta-row{display:flex;gap:12px}
+    .btn{background:var(--accent1);color:white;padding:10px 14px;border-radius:12px;border:none;font-weight:700;cursor:pointer;transition:transform .15s ease, box-shadow .15s}
+    .btn.secondary{background:white;color:var(--accent1);box-shadow:0 1px 0 rgba(0,0,0,0.04);border:1px solid rgba(108,92,231,0.12)}
+    .btn:hover{transform:translateY(-3px)}
+
+    /* Cards */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+    .card{background:var(--card);padding:12px;border-radius:12px;overflow:hidden;border:1px solid rgba(15,23,42,0.03);box-shadow:0 6px 18px rgba(12,18,44,0.02)}
+    .thumb{height:140px;border-radius:10px;background:linear-gradient(90deg,#e9f0ff,#f9f7ff);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+    .card h4{margin:10px 0 6px;font-size:16px}
+    .meta{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:14px}
+    .platforms{display:flex;gap:8px;align-items:center}
+    .plat{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border-radius:10px;background:rgba(255,255,255,0.6);font-weight:600;border:1px solid rgba(15,23,42,0.03)}
+
+    /* Modal & forms */
+    .overlay{position:fixed;inset:0;background:rgba(3,7,18,0.45);display:none;align-items:center;justify-content:center;padding:28px}
+    .modal{width:100%;max-width:760px;background:white;border-radius:14px;padding:18px;box-shadow:0 20px 40px rgba(2,6,23,0.35)}
+    .modal .grid-2{display:grid;grid-template-columns:1fr 320px;gap:16px}
+    label{display:block;font-weight:700;margin-bottom:6px}
+    input[type=text],input[type=email],textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef8;background:#fbfdff}
+    textarea{min-height:120px}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* Order page / custom page as panels */
+    .panel{background:white;border-radius:14px;padding:18px;margin-top:18px;border:1px solid rgba(15,23,42,0.03)}
+
+    footer{margin:40px 0 20px;padding:18px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+
+    /* Responsive */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr;}
+      .hero-card{order:2}
+      .overlay .modal{max-width:92%}
+      .modal .grid-2{grid-template-columns:1fr}
+    }
+
+    /* little loading animation */
+    .loader{width:40px;height:40px;border-radius:999px;border:5px solid rgba(0,0,0,0.06);border-top-color:var(--accent1);animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(108,92,231,0.12), rgba(96,165,250,0.06));font-weight:700}
+
+    .success{background:linear-gradient(90deg,#ecfdf5,#f0fdf4);border:1px solid #bbf7d0;padding:12px;border-radius:10px;color:#065f46}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800">TG</div>
+        <div>
+          <div class="brand">Тати Ganev — Презентации</div>
+          <div class="small">Canva & PowerPoint — персонално</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#home" class="nav-link active" data-target="home">Начало</a>
+        <a href="#templates" class="nav-link" data-target="templates">Презентации</a>
+        <a href="#how" class="nav-link" data-target="how">Как да поръчаш</a>
+        <a href="#contact" class="nav-link" data-target="contact">Контакт</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="home" class="hero">
+        <div class="hero-card">
+          <h1>Избери своята перфектна презентация — Canva или PowerPoint шаблон, изработен по поръчка</h1>
+          <p>Лесен процес, модерен дизайн и персонално внимание. Поръчай къстъм презентация или разгледай готовите шаблони.</p>
+          <div class="cta-row">
+            <button class="btn" id="order-custom">Поръчай къстъм презентация</button>
+            <button class="btn secondary" id="view-templates">Разгледай шаблони</button>
+          </div>
+
+          <div style="margin-top:18px;display:flex;gap:12px;align-items:center">
+            <div class="pill">💎 Най-продавани</div>
+            <div class="small">Нови дизайни всяка седмица</div>
+          </div>
+        </div>
+
+        <div>
+          <div style="background:linear-gradient(180deg,#ffffff,#f6f8ff);padding:20px;border-radius:16px;box-shadow:0 6px 20px rgba(12,18,44,0.04)">
+            <h3 style="margin-bottom:6px">Бързо избиране</h3>
+            <p class="small">Избери шаблон или попълни бърза форма за персонализирана презентация.</p>
+            <div style="display:flex;gap:10px;margin-top:12px">
+              <div style="flex:1;text-align:center;padding:12px;border-radius:12px;background:linear-gradient(90deg,#fff,#fbfcff);border:1px solid rgba(15,23,42,0.03)">
+                <div style="font-weight:800;font-size:20px">Canva</div>
+                <div class="small">ленив процес за лесни редакции</div>
+              </div>
+              <div style="flex:1;text-align:center;padding:12px;border-radius:12px;background:linear-gradient(90deg,#fff,#fbfcff);border:1px solid rgba(15,23,42,0.03)">
+                <div style="font-weight:800;font-size:20px">PowerPoint</div>
+                <div class="small">готови .pptx файлове</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TEMPLATES -->
+      <section id="templates" style="margin-top:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <h2>Шаблони за презентации</h2>
+          <div class="small">Покажи: <button class="btn secondary" id="filter-all">Всички</button></div>
+        </div>
+
+        <div class="grid" id="templates-grid">
+          <!-- Sample cards will be injected by JS -->
+        </div>
+      </section>
+
+      <!-- HOW TO ORDER -->
+      <section id="how" style="margin-top:18px">
+        <h2>Как да поръчаш</h2>
+        <div class="panel">
+          <ol style="padding-left:18px;color:var(--muted)">
+            <li>Разгледай готовите шаблони или поръчай къстъм дизайн.</li>
+            <li>Попълни формата (име, имейл, продукт, бележка) и избери платформа.</li>
+            <li>Начин на плащане: наложен платеж.</li>
+            <li>Ще получиш потвърждение (имейл към: <strong>borislavganev6@gmail.com</strong>).</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ORDER / CUSTOM PANELS -->
+      <section id="order-area" style="margin-top:18px;display:grid;gap:18px">
+        <div class="panel" id="order-panel">
+          <h3>Поръчка на шаблон</h3>
+          <form id="order-form">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <label>Име</label>
+                <input type="text" id="client-name" required placeholder="Вашето име" />
+              </div>
+              <div>
+                <label>Имейл</label>
+                <input type="email" id="client-email" required placeholder="name@example.com" />
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <label>Продукт (автоматично се попълва при избор)</label>
+              <input type="text" id="product-name" readonly value="-" />
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+              <div>
+                <label>Тип</label>
+                <select id="product-type">
+                  <option value="Canva">Canva</option>
+                  <option value="PowerPoint">PowerPoint</option>
+                </select>
+              </div>
+              <div>
+                <label>Цена</label>
+                <input type="text" id="product-price" readonly value="0.00 лв" />
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <label>Допълнително описание</label>
+              <textarea id="product-note" placeholder="Ако имате специални изисквания..."></textarea>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:12px;align-items:center">
+              <div class="small">Начин на плащане:</div>
+              <div style="font-weight:800">Наложен платеж</div>
+            </div>
+
+            <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+              <button type="submit" class="btn">Изпрати поръчка</button>
+              <div id="order-status" style="display:none"></div>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel" id="custom-panel">
+          <h3>Къстъм презентация</h3>
+          <form id="custom-form">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <label>Име</label>
+                <input type="text" id="c-name" required />
+              </div>
+              <div>
+                <label>Имейл</label>
+                <input type="email" id="c-email" required />
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <label>Тема на презентацията</label>
+              <input type="text" id="c-topic" placeholder="напр. Пич-бизнес презентация" />
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+              <div>
+                <label>Брой слайдове (прибл.)</label>
+                <input type="text" id="c-slides" placeholder="напр. 10-15" />
+              </div>
+              <div>
+                <label>Стил / цветове</label>
+                <input type="text" id="c-style" placeholder="напр. пастелни, минимал" />
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <label>Допълнителни изисквания</label>
+              <textarea id="c-note"></textarea>
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+              <div class="small">Начин на плащане: <strong>Наложен платеж</strong></div>
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+              <button type="submit" class="btn">Изпрати къстъм поръчка</button>
+              <div id="custom-status" style="display:none"></div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" style="margin-top:18px">
+        <h2>Контакт</h2>
+        <div class="panel">
+          <p>Ако имате въпроси или искате специален проект, свържете се с мен: <strong>borislavganev6@gmail.com</strong></p>
+          <p class="small">Можете да изпратите и директно съобщение чрез формата по-горе.</p>
+        </div>
+      </section>
+
+      <footer>
+        <div>© <span id="year"></span> Тати Ganev — Автор: Boris Ganev</div>
+        <div class="small">Имейл: <a href="mailto:borislavganev6@gmail.com">borislavganev6@gmail.com</a></div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- overlay for template details -->
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <h3 id="modal-title">Шаблон</h3>
+        <button id="close-modal" style="background:none;border:none;font-weight:800;cursor:pointer">✕</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <div id="modal-preview" style="height:260px;border-radius:10px;background:linear-gradient(90deg,#fff,#f6f8ff);display:flex;align-items:center;justify-content:center;color:var(--muted)">Preview</div>
+          <p id="modal-desc" style="margin-top:10px;color:var(--muted)"></p>
+        </div>
+        <div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="small">Цена</div>
+            <div id="modal-price" style="font-weight:900;font-size:22px">0.00 лв</div>
+            <div style="display:flex;gap:8px;margin-top:12px"><div class="plat">Canva</div><div class="plat">PowerPoint</div></div>
+            <div style="margin-top:20px">
+              <button class="btn" id="modal-order">Поръчай този шаблон</button>
+              <button class="btn secondary" id="modal-close">Затвори</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample templates data (you can replace / expand)
+    const templates = [
+      {id:1,name:'Съвременен бял',price:79.00,platforms:['Canva','PowerPoint'],desc:'Минималистичен, чист и професионален. Подходящ за бизнес презентации, портфолио, pitch deck.'},
+      {id:2,name:'Пастелни идеи',price:49.00,platforms:['Canva'],desc:'Меки пастелни тонове, идеален за творчески проекти и социални презентации.'},
+      {id:3,name:'Тъмна професия',price:89.00,platforms:['PowerPoint'],desc:'Елегантен тъмен шаблон за корпоративни и вечерни презентации.'},
+      {id:4,name:'Маркетинг в синьо',price:59.00,platforms:['Canva','PowerPoint'],desc:'Фокус върху визуални графики и данни, удобно за маркетинг презентации.'}
+    ];
+
+    // Render templates
+    const grid = document.getElementById('templates-grid');
+    const yearEl = document.getElementById('year'); yearEl.textContent = new Date().getFullYear();
+
+    function renderTemplates(){
+      grid.innerHTML = '';
+      templates.forEach(t => {
+        const card = document.createElement('div'); card.className='card';
+        card.innerHTML = `
+          <div class="thumb">${t.name}</div>
+          <h4>${t.name}</h4>
+          <div class="meta"><div class="platforms">${t.platforms.map(p=>`<span class=\"plat\">${p}</span>`).join('')}</div><div style=\"font-weight:800\">${t.price.toFixed(2)} лв</div></div>
+          <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+            <button class="btn" data-id="${t.id}" onclick="openModal(${t.id})">Виж</button>
+            <button class="btn secondary" onclick="prefillOrder(${t.id})">Поръчай</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    renderTemplates();
+
+    // SPA nav
+    document.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',e=>{
+      e.preventDefault();
+      document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
+      a.classList.add('active');
+      const target = document.getElementById(a.dataset.target);
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    }));
+
+    // modal
+    const overlay = document.getElementById('overlay');
+    function openModal(id){
+      const t = templates.find(x=>x.id===id);
+      document.getElementById('modal-title').textContent = t.name;
+      document.getElementById('modal-price').textContent = t.price.toFixed(2) + ' лв';
+      document.getElementById('modal-desc').textContent = t.desc;
+      document.getElementById('modal-preview').textContent = t.name + ' — preview';
+      overlay.style.display='flex';
+      // attach order button
+      document.getElementById('modal-order').onclick = ()=>{ overlay.style.display='none'; prefillOrder(id); window.scrollTo({top:0,behavior:'smooth'}) };
+    }
+    document.getElementById('close-modal').onclick = ()=> overlay.style.display='none';
+    document.getElementById('modal-close').onclick = ()=> overlay.style.display='none';
+
+    // prefill order
+    function prefillOrder(id){
+      const t = templates.find(x=>x.id===id);
+      document.getElementById('product-name').value = t.name;
+      document.getElementById('product-price').value = t.price.toFixed(2) + ' лв';
+      // scroll to order panel
+      document.getElementById('order-panel').scrollIntoView({behavior:'smooth',block:'center'});
+    }
+
+    // Quick buttons
+    document.getElementById('order-custom').addEventListener('click',()=>{document.getElementById('custom-panel').scrollIntoView({behavior:'smooth',block:'center'})});
+    document.getElementById('view-templates').addEventListener('click',()=>{document.getElementById('templates').scrollIntoView({behavior:'smooth',block:'start'})});
+
+    // Forms behavior: because GitHub Pages is static, we'll open user's email client with prefilled email to borislavganev6@gmail.com
+    function sendMail(to,subject,body){
+      // Encode and open mailto
+      const href = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = href;
+    }
+
+    // Order form submit
+    document.getElementById('order-form').addEventListener('submit',function(e){
+      e.preventDefault();
+      const name = document.getElementById('client-name').value.trim();
+      const email = document.getElementById('client-email').value.trim();
+      const product = document.getElementById('product-name').value || '-';
+      const price = document.getElementById('product-price').value || '-';
+      const type = document.getElementById('product-type').value;
+      const note = document.getElementById('product-note').value.trim() || '-';
+
+      const subject = `Нова поръчка: ${product} (${type}) — ${name}`;
+      const body = `Име на клиента: ${name}\nИмейл на клиента: ${email}\nПродукт: ${product}\nТип: ${type}\nЦена: ${price}\nДопълнително описание: ${note}\nНачин на плащане: Наложен платеж`;
+
+      // show success message right away
+      const status = document.getElementById('order-status');
+      status.style.display='block'; status.className='success'; status.textContent = 'Отварям пощенски клиент — моля потвърдете изпращането.';
+
+      // open mailto
+      sendMail('borislavganev6@gmail.com',subject,body);
+
+      // after opening, show thank you text
+      setTimeout(()=>{ status.textContent = 'Благодарим! Ще се свържем с вас скоро.' },700);
+    });
+
+    // Custom form submit
+    document.getElementById('custom-form').addEventListener('submit',function(e){
+      e.preventDefault();
+      const name = document.getElementById('c-name').value.trim();
+      const email = document.getElementById('c-email').value.trim();
+      const topic = document.getElementById('c-topic').value.trim() || '-';
+      const slides = document.getElementById('c-slides').value.trim() || '-';
+      const style = document.getElementById('c-style').value.trim() || '-';
+      const note = document.getElementById('c-note').value.trim() || '-';
+
+      const subject = `Нова къстъм поръчка — ${name} — ${topic}`;
+      const body = `Име на клиента: ${name}\nИмейл: ${email}\nТема: ${topic}\nБрой слайдове: ${slides}\nСтил/цветове: ${style}\nДопълнителни изисквания: ${note}\nНачин на плащане: Наложен платеж`;
+
+      const status = document.getElementById('custom-status');
+      status.style.display='block'; status.className='success'; status.textContent = 'Отварям пощенски клиент — моля потвърдете изпращането.';
+      sendMail('borislavganev6@gmail.com',subject,body);
+      setTimeout(()=>{ status.textContent = 'Благодарим! Ще се свържем с вас скоро.' },700);
+    });
+
+    // small UX: allow product type change to affect price placeholder (simple heuristic)
+    document.getElementById('product-type').addEventListener('change', function(){
+      const pName = document.getElementById('product-name').value;
+      const t = templates.find(x=>x.name===pName);
+      if(t){
+        let price = t.price;
+        if(this.value === 'Canva' && t.platforms.includes('Canva')===false) price = t.price + 10; // small heuristic
+        if(this.value === 'PowerPoint' && t.platforms.includes('PowerPoint')===false) price = t.price + 10;
+        document.getElementById('product-price').value = price.toFixed(2) + ' лв';
+      }
+    });
+
+    // friendly fallback: if user wants actual server-side emailing, include short comment in console
+    console.log('За да изпращате имейли автоматично без да отваряте пощенски клиент, интегрирайте Formspree/EmailJS или създайте serverless функция.');
+  </script>
+</body>
+</html>
